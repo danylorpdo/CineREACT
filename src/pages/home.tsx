@@ -52,7 +52,6 @@ import {
   ROOM_TYPES,
   sanitizeDigits,
   SESSION_LANGUAGES,
-  STORAGE_KEY,
   summarizeRevenueByDay,
   summarizeRevenueByMovie,
   summarizeTicketSales,
@@ -73,6 +72,7 @@ import type {
   User,
 } from "../types";
 import "./home.css";
+import "./auth-update.css";
 
 type Screen =
   | "home"
@@ -202,11 +202,147 @@ const defaultProductForm: ProductFormState = {
   stock: "",
 };
 
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3333";
+
+interface ApiSession {
+  id: number;
+  date: string;
+  time: string;
+  language: string;
+  ticketPrice: number;
+  roomId: number;
+}
+
+interface ApiMovie {
+  id: number;
+  name: string;
+  genre: string;
+  classification: string;
+  duration_minutes: number;
+  synopsis: string;
+  director: string;
+  cast_members: string;
+  premiere_date: string;
+  status: string;
+  image_url: string;
+  sessions: ApiSession[];
+}
+
+function normalizeMovieStatus(status: string): Movie["status"] {
+  if (status === "em_cartaz" || status === "Em Cartaz") {
+    return "Em Cartaz";
+  }
+
+  if (status === "em_breve" || status === "Em Breve") {
+    return "Em Breve";
+  }
+
+  if (status === "encerrado" || status === "Encerrado") {
+    return "Encerrado";
+  }
+
+  return "Em Cartaz";
+}
+
+function normalizeClassification(classification: string): Movie["classification"] {
+  if (CLASSIFICATION_OPTIONS.includes(classification as Movie["classification"])) {
+    return classification as Movie["classification"];
+  }
+
+  return "12";
+}
+
+function normalizeLanguage(language: string): CinemaSession["language"] {
+  if (SESSION_LANGUAGES.includes(language as CinemaSession["language"])) {
+    return language as CinemaSession["language"];
+  }
+
+  return "Dublado";
+}
+
+function buildSeats(roomId: string, capacity: number): Room["seats"] {
+  return Array.from({ length: capacity }, (_, index) => {
+    const row = String.fromCharCode(65 + Math.floor(index / 8));
+    const numberInRow = (index % 8) + 1;
+
+    return {
+      id: `${roomId}-${row}${numberInRow}`,
+      roomId,
+      row,
+      number: numberInRow,
+      label: `${row}${numberInRow}`,
+      type: row === "A" ? "Preferencial" : index >= capacity - Math.min(8, capacity) ? "VIP" : "Comum",
+      status: "Disponivel",
+    };
+  });
+}
+
+function mapApiMoviesToStore(baseStore: CinemaStore, apiMovies: ApiMovie[]): CinemaStore {
+  const movies: Movie[] = apiMovies.map((movie, index) => ({
+    id: String(movie.id),
+    name: movie.name,
+    genre: movie.genre,
+    classification: normalizeClassification(movie.classification),
+    durationMinutes: movie.duration_minutes,
+    synopsis: movie.synopsis,
+    director: movie.director,
+    cast: movie.cast_members,
+    premiereDate: movie.premiere_date ? movie.premiere_date.slice(0, 10) : "",
+    status: normalizeMovieStatus(movie.status),
+    image:
+      movie.image_url ||
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80",
+    featured: index === 0,
+  }));
+
+  const sessions: CinemaSession[] = apiMovies.flatMap((movie) =>
+    movie.sessions.map((session) => ({
+      id: String(session.id),
+      movieId: String(movie.id),
+      roomId: String(session.roomId),
+      date: session.date,
+      time: session.time.slice(0, 5),
+      language: normalizeLanguage(session.language),
+      price: Number(session.ticketPrice),
+      occupiedSeatIds: [],
+    }))
+  );
+
+  const roomIds = Array.from(new Set(sessions.map((session) => session.roomId)));
+
+  const rooms: Room[] = roomIds.map((roomId, index) => {
+    const numericRoomId = Number(roomId);
+    const existingRoom =
+      baseStore.rooms.find((room) => String(room.number) === roomId) ??
+      baseStore.rooms[index];
+
+    const capacity = existingRoom?.capacity ?? 80;
+
+    return {
+      id: roomId,
+      number: Number.isNaN(numericRoomId) ? index + 1 : numericRoomId,
+      type: existingRoom?.type ?? "2D",
+      status: "Ativa",
+      capacity,
+      seats: buildSeats(roomId, capacity),
+    };
+  });
+
+  return {
+    ...baseStore,
+    movies,
+    rooms,
+    sessions,
+  };
+}
+
+
 function Home() {
   const [store, setStore] = useState<CinemaStore | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [screen, setScreen] = useState<Screen>("home");
   const [authMode, setAuthMode] = useState<AuthMode>("login");
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState("");
   const [selectedSessionId, setSelectedSessionId] = useState("");
@@ -229,38 +365,63 @@ function Home() {
     let active = true;
 
     async function loadStore() {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as CinemaStore;
+      try {
+        const users = await buildSeedUsers();
+        const baseStore = buildDefaultStore(users);
+
+        const response = await fetch(`${API_URL}/movies`);
+
+        if (!response.ok) {
+          throw new Error("Nao foi possivel carregar os filmes da API.");
+        }
+
+        const apiMovies = (await response.json()) as ApiMovie[];
+        const apiStore = mapApiMoviesToStore(baseStore, apiMovies);
+
         if (!active) {
           return;
         }
-        setStore(parsed);
-        setSelectedMovieId(parsed.movies.find((movie) => movie.featured)?.id ?? parsed.movies[0]?.id ?? "");
-        setSelectedSessionId(parsed.sessions[0]?.id ?? "");
+
+        setStore(apiStore);
+        setSelectedMovieId(apiStore.movies.find((movie) => movie.featured)?.id ?? apiStore.movies[0]?.id ?? "");
+        setSelectedSessionId(apiStore.sessions[0]?.id ?? "");
         setSessionForm((current) => ({
           ...current,
-          movieId: parsed.movies.find((movie) => movie.status === "Em Cartaz")?.id ?? parsed.movies[0]?.id ?? "",
-          roomId: parsed.rooms.find((room) => room.status === "Ativa")?.id ?? "",
+          movieId: apiStore.movies.find((movie) => movie.status === "Em Cartaz")?.id ?? apiStore.movies[0]?.id ?? "",
+          roomId: apiStore.rooms.find((room) => room.status === "Ativa")?.id ?? "",
         }));
-        setIsLoading(false);
-        return;
-      }
+      } catch (error) {
+        console.error(error);
 
-      const users = await buildSeedUsers();
-      if (!active) {
-        return;
+        const users = await buildSeedUsers();
+
+        if (!active) {
+          return;
+        }
+
+        const fallbackStore = buildDefaultStore(users);
+        setStore(fallbackStore);
+        setSelectedMovieId(
+          fallbackStore.movies.find((movie) => movie.featured)?.id ?? fallbackStore.movies[0]?.id ?? ""
+        );
+        setSelectedSessionId(fallbackStore.sessions[0]?.id ?? "");
+        setSessionForm((current) => ({
+          ...current,
+          movieId:
+            fallbackStore.movies.find((movie) => movie.status === "Em Cartaz")?.id ??
+            fallbackStore.movies[0]?.id ??
+            "",
+          roomId: fallbackStore.rooms.find((room) => room.status === "Ativa")?.id ?? "",
+        }));
+        setAlert({
+          tone: "error",
+          text: "Nao foi possivel conectar na API. O sistema carregou os dados locais de emergencia.",
+        });
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
       }
-      const seededStore = buildDefaultStore(users);
-      setStore(seededStore);
-      setSelectedMovieId(seededStore.movies.find((movie) => movie.featured)?.id ?? seededStore.movies[0]?.id ?? "");
-      setSelectedSessionId(seededStore.sessions[0]?.id ?? "");
-      setSessionForm((current) => ({
-        ...current,
-        movieId: seededStore.movies.find((movie) => movie.status === "Em Cartaz")?.id ?? seededStore.movies[0]?.id ?? "",
-        roomId: seededStore.rooms.find((room) => room.status === "Ativa")?.id ?? "",
-      }));
-      setIsLoading(false);
     }
 
     loadStore();
@@ -269,13 +430,6 @@ function Home() {
       active = false;
     };
   }, []);
-
-  useEffect(() => {
-    if (!store) {
-      return;
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-  }, [store]);
 
   useEffect(() => {
     if (!alert) {
@@ -538,6 +692,7 @@ function Home() {
     }));
 
     setRegisterForm(defaultRegisterForm);
+    setIsRegisterModalOpen(false);
     showAlert("success", `${formatUserType(newUser.type)} cadastrado com sucesso.`);
 
     if (pendingMovieId && newUser.type === "cliente") {
@@ -1343,24 +1498,38 @@ function Home() {
       ) : null}
 
       {screen === "auth" ? (
-        <section className="page-shell">
-          <div className="auth-layout">
-            <article className="panel auth-panel">
-              <div className="panel__header">
+        <section className="page-shell auth-page-shell">
+          <div className="cinemark-auth">
+            <article className="cinemark-auth__hero">
+              <span className="cinemark-auth__tag">Acesso CineReact</span>
+              <h2>Entre para comprar ingressos e acompanhar seus pedidos.</h2>
+              <p>
+                Faça login para acessar histórico de compras, QR Codes, pedidos da bomboniere e área
+                administrativa quando sua conta possuir permissão.
+              </p>
+
+              <div className="auth-perks">
+                <span>Ingressos digitais</span>
+                <span>Seleção de assentos</span>
+                <span>Pedidos de bomboniere</span>
+              </div>
+            </article>
+
+            <article className="cinemark-login-card">
+              <div className="cinemark-login-card__header">
                 <div>
-                  <p className="panel__eyebrow">Acesso</p>
-                  <h3 className="panel__title">Entrar</h3>
+                  <p className="panel__eyebrow">Login</p>
+                  <h3>Entrar na conta</h3>
                 </div>
-                <button type="button" className="secondary-button" onClick={() => setAuthMode("login")}>
-                  Login
-                </button>
+                <span className="login-badge">Seguro</span>
               </div>
 
-              <form className="form-grid" onSubmit={handleLogin}>
-                <label className="field">
+              <form className="cinemark-login-form" onSubmit={handleLogin}>
+                <label className="field auth-field">
                   <span>E-mail</span>
                   <input
                     type="email"
+                    placeholder="cliente@cinereact.com"
                     value={loginForm.email}
                     onChange={(event) =>
                       setLoginForm((current) => ({ ...current, email: event.target.value }))
@@ -1368,10 +1537,11 @@ function Home() {
                   />
                 </label>
 
-                <label className="field">
+                <label className="field auth-field">
                   <span>Senha</span>
                   <input
                     type="password"
+                    placeholder="Digite sua senha"
                     value={loginForm.password}
                     onChange={(event) =>
                       setLoginForm((current) => ({ ...current, password: event.target.value }))
@@ -1379,117 +1549,153 @@ function Home() {
                   />
                 </label>
 
-                <button type="submit" className="primary-button">
+                <button type="submit" className="primary-button auth-submit-button">
                   Entrar
                 </button>
-
-                <div className="hint-card">
-                  <strong>Perfis de teste</strong>
-                  <span>Cliente: cliente@cinereact.com / Cliente@123</span>
-                  <span>Administrador: admin@cinereact.com / Admin@123</span>
-                  <span>O sistema identifica automaticamente se a conta e de cliente ou ADM.</span>
-                </div>
               </form>
-            </article>
 
-            <article className="panel auth-panel">
-              <div className="panel__header">
-                <div>
-                  <p className="panel__eyebrow">Cadastro do cliente</p>
-                  <h3 className="panel__title">
-                    {authMode === "register" ? "Criar conta" : "Novo cadastro"}
-                  </h3>
-                </div>
-                <button type="button" className="secondary-button" onClick={() => setAuthMode("register")}>
+              <div className="auth-create-account">
+                <span>Ainda não tem cadastro?</span>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  onClick={() => {
+                    setAuthMode("register");
+                    setIsRegisterModalOpen(true);
+                  }}
+                >
                   Criar conta
                 </button>
               </div>
 
-              <form className="form-grid" onSubmit={handleRegister}>
-                <label className="field">
-                  <span>Nome</span>
-                  <input
-                    value={registerForm.name}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({ ...current, name: event.target.value }))
-                    }
-                  />
-                </label>
-
-                <label className="field">
-                  <span>E-mail</span>
-                  <input
-                    type="email"
-                    value={registerForm.email}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({ ...current, email: event.target.value }))
-                    }
-                  />
-                </label>
-
-                <label className="field">
-                  <span>Telefone</span>
-                  <input
-                    value={formatPhone(registerForm.phone)}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({
-                        ...current,
-                        phone: sanitizeDigits(event.target.value),
-                      }))
-                    }
-                  />
-                </label>
-
-                <label className="field">
-                  <span>CPF</span>
-                  <input
-                    value={formatCpf(registerForm.cpf)}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({
-                        ...current,
-                        cpf: sanitizeDigits(event.target.value),
-                      }))
-                    }
-                  />
-                </label>
-
-                <label className="field">
-                  <span>Senha</span>
-                  <input
-                    type="password"
-                    value={registerForm.password}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({ ...current, password: event.target.value }))
-                    }
-                  />
-                </label>
-
-                <label className="field">
-                  <span>Confirmar senha</span>
-                  <input
-                    type="password"
-                    value={registerForm.confirmPassword}
-                    onChange={(event) =>
-                      setRegisterForm((current) => ({
-                        ...current,
-                        confirmPassword: event.target.value,
-                      }))
-                    }
-                  />
-                </label>
-
-                <div className="hint-card field--full">
-                  <strong>Regra de acesso</strong>
-                  <span>Essa tela publica cria apenas clientes.</span>
-                  <span>Se a conta for administrativa, o login direciona para a gestao automaticamente.</span>
-                </div>
-
-                <button type="submit" className="primary-button">
-                  Cadastrar cliente
-                </button>
-              </form>
+              <div className="auth-access-note">
+                <strong>Perfis de teste</strong>
+                <span>Cliente: cliente@cinereact.com / Cliente@123</span>
+                <span>Administrador: admin@cinereact.com / Admin@123</span>
+                <small>O sistema identifica automaticamente se a conta é de cliente ou ADM.</small>
+              </div>
             </article>
           </div>
+
+          {isRegisterModalOpen ? (
+            <div className="auth-modal-backdrop" role="presentation">
+              <article className="auth-modal" role="dialog" aria-modal="true" aria-labelledby="register-title">
+                <div className="auth-modal__header">
+                  <div>
+                    <p className="panel__eyebrow">Cadastro do cliente</p>
+                    <h3 id="register-title">Criar conta</h3>
+                  </div>
+                  <button
+                    type="button"
+                    className="auth-modal__close"
+                    aria-label="Fechar cadastro"
+                    onClick={() => setIsRegisterModalOpen(false)}
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <form className="auth-modal__form" onSubmit={handleRegister}>
+                  <label className="field auth-field">
+                    <span>Nome</span>
+                    <input
+                      placeholder="Seu nome completo"
+                      value={registerForm.name}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({ ...current, name: event.target.value }))
+                      }
+                    />
+                  </label>
+
+                  <label className="field auth-field">
+                    <span>E-mail</span>
+                    <input
+                      type="email"
+                      placeholder="seuemail@exemplo.com"
+                      value={registerForm.email}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({ ...current, email: event.target.value }))
+                      }
+                    />
+                  </label>
+
+                  <label className="field auth-field">
+                    <span>Telefone</span>
+                    <input
+                      placeholder="(45) 99999-9999"
+                      value={formatPhone(registerForm.phone)}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({
+                          ...current,
+                          phone: sanitizeDigits(event.target.value),
+                        }))
+                      }
+                    />
+                  </label>
+
+                  <label className="field auth-field">
+                    <span>CPF</span>
+                    <input
+                      placeholder="000.000.000-00"
+                      value={formatCpf(registerForm.cpf)}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({
+                          ...current,
+                          cpf: sanitizeDigits(event.target.value),
+                        }))
+                      }
+                    />
+                  </label>
+
+                  <label className="field auth-field">
+                    <span>Senha</span>
+                    <input
+                      type="password"
+                      placeholder="Mínimo 8 caracteres"
+                      value={registerForm.password}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({ ...current, password: event.target.value }))
+                      }
+                    />
+                  </label>
+
+                  <label className="field auth-field">
+                    <span>Confirmar senha</span>
+                    <input
+                      type="password"
+                      placeholder="Repita sua senha"
+                      value={registerForm.confirmPassword}
+                      onChange={(event) =>
+                        setRegisterForm((current) => ({
+                          ...current,
+                          confirmPassword: event.target.value,
+                        }))
+                      }
+                    />
+                  </label>
+
+                  <div className="auth-rule-card">
+                    <strong>Regra de acesso</strong>
+                    <span>Essa tela pública cria apenas clientes.</span>
+                    <span>Contas administrativas continuam entrando pelo login normal.</span>
+                  </div>
+
+                  <div className="auth-modal__actions">
+                    <button
+                      type="button"
+                      className="secondary-button"
+                      onClick={() => setIsRegisterModalOpen(false)}
+                    >
+                      Cancelar
+                    </button>
+                    <button type="submit" className="primary-button">
+                      Cadastrar cliente
+                    </button>
+                  </div>
+                </form>
+              </article>
+            </div>
+          ) : null}
         </section>
       ) : null}
 

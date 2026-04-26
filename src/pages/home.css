@@ -1,10 +1,7 @@
 .home {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 24%),
-    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 22%),
-    linear-gradient(180deg, #020617 0%, #0b1120 100%);
-  color: #f8fafc;
+  background: transparent;
+  color: var(--text-primary);
 }
 
 .home--loading {
@@ -17,40 +14,47 @@
 .alert {
   width: min(760px, calc(100% - 32px));
   margin: 20px auto 0;
-  border-radius: 22px;
+  border-radius: 16px;
   padding: 16px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-soft);
+  background: rgba(15, 23, 42, 0.88);
+  box-shadow: var(--shadow-soft);
 }
 
 .loading-card {
   display: grid;
   gap: 6px;
-  background: rgba(15, 23, 42, 0.86);
 }
 
 .alert {
   position: sticky;
-  top: 108px;
+  top: 74px;
   z-index: 20;
-  backdrop-filter: blur(12px);
+  font-weight: 800;
 }
 
 .alert--success {
-  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.24);
+  background: var(--success-bg);
+  color: var(--success-text);
 }
 
 .alert--error {
-  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 35, 60, 0.24);
+  background: var(--danger-bg);
+  color: var(--danger-text);
 }
 
 .alert--info {
-  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.24);
+  background: var(--info-bg);
+  color: var(--info-text);
 }
 
 .dashboard-grid,
 .page-grid,
 .backoffice-layout {
-  max-width: 1340px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 24px;
 }
@@ -59,7 +63,7 @@
 .page-grid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
-  gap: 20px;
+  gap: 18px;
 }
 
 .page-grid--snack {
@@ -68,7 +72,7 @@
 
 .backoffice-layout {
   display: grid;
-  gap: 20px;
+  gap: 18px;
 }
 
 .page-shell {
@@ -76,11 +80,11 @@
 }
 
 .panel {
-  border-radius: 28px;
-  background: rgba(10, 15, 30, 0.84);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(9, 14, 29, 0.96));
+  border: 1px solid var(--border-soft);
   padding: 22px;
-  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
+  box-shadow: var(--shadow-soft);
 }
 
 .panel--wide,
@@ -97,38 +101,45 @@
 }
 
 .panel__eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #fca5a5;
+  color: #ef233c;
+  font-weight: 900;
   margin-bottom: 6px;
 }
 
 .panel__title {
-  font-size: 1.55rem;
+  color: var(--text-primary);
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
 }
 
 .pill {
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(148, 163, 184, 0.16);
-  color: #e2e8f0;
-  font-size: 0.88rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  font-size: 0.86rem;
+  font-weight: 800;
 }
 
 .pill--pago,
 .pill--pronto {
-  background: rgba(34, 197, 94, 0.18);
+  background: var(--success-bg);
+  color: var(--success-text);
 }
 
 .pill--pendente,
 .pill--preparando {
-  background: rgba(250, 204, 21, 0.18);
+  background: var(--warning-bg);
+  color: var(--warning-text);
 }
 
 .pill--cancelado,
 .pill--entregue {
-  background: rgba(59, 130, 246, 0.18);
+  background: var(--info-bg);
+  color: var(--info-text);
 }
 
 .detail-grid,
@@ -154,10 +165,10 @@
 
 .movie-detail__poster {
   min-height: 360px;
-  border-radius: 24px;
+  border-radius: 18px;
   background-position: center;
   background-size: cover;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .movie-detail__content {
@@ -166,7 +177,7 @@
 }
 
 .auth-layout {
-  max-width: 1340px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 24px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -198,7 +209,7 @@
 .operator-card span,
 .product-card span,
 .summary-box span {
-  color: rgba(226, 232, 240, 0.82);
+  color: var(--text-secondary);
 }
 
 .facts-list,
@@ -228,9 +239,9 @@
 .ticket-card,
 .operator-card,
 .room-card {
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(15, 23, 42, 0.64);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .stat-card {
@@ -240,7 +251,8 @@
 }
 
 .stat-card strong {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
+  color: var(--text-primary);
 }
 
 .report-card,
@@ -280,8 +292,9 @@
 }
 
 .field span {
-  font-size: 0.92rem;
-  color: #cbd5e1;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 700;
 }
 
 .field input,
@@ -289,12 +302,20 @@
 .field textarea,
 .button-row select {
   width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(2, 6, 23, 0.72);
-  color: #f8fafc;
-  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  background: rgba(2, 6, 23, 0.62);
+  color: var(--text-primary);
+  padding: 12px 13px;
   outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.button-row select:focus {
+  border-color: #ef233c;
+  box-shadow: 0 0 0 4px rgba(239, 35, 60, 0.1);
 }
 
 .field textarea {
@@ -306,7 +327,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #e2e8f0;
+  color: var(--text-primary);
 }
 
 .toggle-field input {
@@ -325,19 +346,20 @@
 
 .primary-button,
 .secondary-button {
-  border-radius: 16px;
-  padding: 13px 18px;
-  font-weight: 800;
+  border-radius: 12px;
+  padding: 12px 17px;
+  font-weight: 900;
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #fb7185, #ef4444);
-  color: #fff;
+  background: #ef233c;
+  color: #ffffff;
 }
 
 .secondary-button {
-  background: rgba(148, 163, 184, 0.16);
-  color: #f8fafc;
+  background: var(--bg-elevated);
+  color: #ffffff;
+  border: 1px solid var(--border-soft);
 }
 
 .button-row {
@@ -353,13 +375,14 @@
   gap: 4px;
   text-align: left;
   padding: 14px 16px;
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.64);
-  color: #e2e8f0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .session-card--active {
-  outline: 2px solid rgba(248, 113, 113, 0.62);
+  outline: 2px solid #ef233c;
 }
 
 .checkout-grid {
@@ -375,7 +398,8 @@
   text-align: center;
   border-radius: 999px;
   padding: 10px 12px;
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.28), rgba(59, 130, 246, 0.06));
+  background: var(--bg-elevated);
+  color: #ffffff;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -389,34 +413,35 @@
 }
 
 .seat {
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 10px 6px;
   font-size: 0.8rem;
-  color: #fff;
+  color: #ffffff;
 }
 
 .seat--disponivel {
-  background: rgba(59, 130, 246, 0.24);
+  background: #1d4ed8;
 }
 
 .seat--ocupado {
-  background: rgba(248, 113, 113, 0.28);
+  background: #ef233c;
 }
 
 .seat--manutencao {
-  background: rgba(148, 163, 184, 0.22);
+  background: #475569;
 }
 
 .seat--selected {
-  outline: 2px solid rgba(250, 204, 21, 0.9);
+  outline: 3px solid #facc15;
 }
 
 .ticket-type-card {
   display: grid;
   gap: 8px;
   padding: 14px;
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.64);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .summary-box {
@@ -437,8 +462,8 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(248, 113, 113, 0.18);
-  color: #fff;
+  background: var(--bg-elevated);
+  color: #ffffff;
 }
 
 .operator-card,
@@ -449,7 +474,7 @@
 }
 
 .ticket-card--highlight {
-  outline: 2px solid rgba(250, 204, 21, 0.64);
+  outline: 2px solid #facc15;
 }
 
 .qr-card {
@@ -462,8 +487,9 @@
   width: 140px;
   height: 140px;
   border-radius: 18px;
-  background: #fff;
+  background: #ffffff;
   padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .table-card {
@@ -478,13 +504,13 @@ table {
 th,
 td {
   padding: 12px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   text-align: left;
 }
 
 th {
-  color: #fda4af;
-  font-size: 0.82rem;
+  color: #ef233c;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
