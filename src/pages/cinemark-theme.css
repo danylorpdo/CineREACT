@@ -1,0 +1,499 @@
+:root {
+  --cine-bg: #070707;
+  --cine-bg-soft: #0d0d0f;
+  --cine-surface: #151515;
+  --cine-surface-2: #1e1e1e;
+  --cine-border: rgba(255, 255, 255, 0.1);
+  --cine-text: #f7f7f7;
+  --cine-muted: #c5c5c5;
+  --cine-red: #e50914;
+  --cine-red-dark: #b20710;
+  --cine-yellow: #ffcc33;
+  --cine-white: #ffffff;
+  --cine-black: #050505;
+  --cine-shadow: 0 22px 60px rgba(0, 0, 0, 0.48);
+}
+
+/* Base geral */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--cine-black) !important;
+  color: var(--cine-text);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(229, 9, 20, 0.14), transparent 32rem),
+    linear-gradient(180deg, #050505 0%, #0a0a0a 44%, #050505 100%) !important;
+}
+
+.home {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(229, 9, 20, 0.14), transparent 30rem),
+    radial-gradient(circle at 88% 16%, rgba(255, 204, 51, 0.04), transparent 26rem),
+    #070707 !important;
+  color: var(--cine-text) !important;
+}
+
+/* Header / topo */
+.header,
+.app-header,
+.main-header,
+.site-header {
+  background: #080808 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42) !important;
+  backdrop-filter: none !important;
+}
+
+.header *,
+.app-header *,
+.main-header *,
+.site-header * {
+  color: var(--cine-text);
+}
+
+.header button,
+.app-header button,
+.main-header button,
+.site-header button {
+  min-height: 38px;
+}
+
+.header input,
+.app-header input,
+.main-header input,
+.site-header input {
+  background: #151515 !important;
+  color: var(--cine-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: none !important;
+}
+
+.header input::placeholder,
+.app-header input::placeholder,
+.main-header input::placeholder,
+.site-header input::placeholder {
+  color: #888 !important;
+}
+
+/* Menu superior */
+.menu,
+.main-menu,
+.nav-menu {
+  background: #0b0b0b !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.menu button,
+.main-menu button,
+.nav-menu button {
+  color: var(--cine-muted) !important;
+  border-radius: 999px !important;
+  padding: 0.62rem 1rem !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: 0.18s ease;
+}
+
+.menu button:hover,
+.main-menu button:hover,
+.nav-menu button:hover {
+  color: var(--cine-white) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+.menu button[class*="active"],
+.main-menu button[class*="active"],
+.nav-menu button[class*="active"] {
+  color: var(--cine-white) !important;
+  background: var(--cine-red) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Painéis gerais */
+.panel,
+.loading-card,
+.table-card,
+.report-card,
+.ticket-card,
+.operator-card,
+.room-card,
+.product-card,
+.notification-card,
+.summary-box,
+.hint-card,
+.auth-access-note,
+.auth-rule-card,
+.stat-card {
+  background: linear-gradient(180deg, #151515 0%, #101010 100%) !important;
+  color: var(--cine-text) !important;
+  border: 1px solid var(--cine-border) !important;
+  box-shadow: var(--cine-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+.panel__title,
+.panel h3,
+.panel strong,
+.ticket-card strong,
+.operator-card strong,
+.product-card strong,
+.report-card strong,
+.stat-card strong {
+  color: var(--cine-white) !important;
+}
+
+.panel__eyebrow {
+  color: var(--cine-red) !important;
+  letter-spacing: 0.14em;
+  font-weight: 900;
+}
+
+.muted-text,
+.panel span,
+.ticket-card span,
+.operator-card span,
+.product-card span,
+.report-card span,
+.profile-list span,
+.facts-list span,
+.detail-copy {
+  color: var(--cine-muted);
+}
+
+.detail-copy {
+  line-height: 1.7;
+}
+
+/* Botões */
+.primary-button,
+.auth-submit-button {
+  background: linear-gradient(180deg, #ff1722 0%, var(--cine-red) 100%) !important;
+  color: var(--cine-white) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 13px 30px rgba(229, 9, 20, 0.3) !important;
+  font-weight: 900 !important;
+}
+
+.primary-button:hover,
+.auth-submit-button:hover {
+  background: linear-gradient(180deg, #ff3138 0%, var(--cine-red-dark) 100%) !important;
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  background: #ffffff !important;
+  color: #050505 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  font-weight: 800 !important;
+}
+
+.secondary-button:hover {
+  background: #e7e7e7 !important;
+  color: #050505 !important;
+}
+
+/* =========================================================
+   HERO / BANNER PRINCIPAL - SEM TOM AZUL
+   ========================================================= */
+
+.hero,
+.hero-banner,
+.cinema-hero {
+  background: #080808 !important;
+  border: 1px solid rgba(229, 9, 20, 0.26) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65) !important;
+  overflow: hidden !important;
+}
+
+.hero::before,
+.hero-banner::before,
+.cinema-hero::before {
+  background:
+    linear-gradient(
+      90deg,
+      #050505 0%,
+      #070707 42%,
+      rgba(7, 7, 7, 0.88) 58%,
+      rgba(7, 7, 7, 0.18) 100%
+    ) !important;
+}
+
+.hero::after,
+.hero-banner::after,
+.cinema-hero::after {
+  background:
+    linear-gradient(
+      90deg,
+      #050505 0%,
+      rgba(5, 5, 5, 0.96) 38%,
+      rgba(5, 5, 5, 0.54) 68%,
+      rgba(5, 5, 5, 0.14) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.08) 0%,
+      rgba(5, 5, 5, 0.74) 100%
+    ) !important;
+}
+
+.hero-banner__content,
+.hero-banner__info,
+.hero-banner__copy,
+.hero__content,
+.cinema-hero__content {
+  background: transparent !important;
+}
+
+.hero-banner__media,
+.hero-banner__poster,
+.hero-banner__image,
+.hero__media,
+.hero__poster,
+.cinema-hero__media,
+.cinema-hero__poster {
+  background-color: #080808 !important;
+}
+
+.hero h1,
+.hero-banner h1,
+.cinema-hero h1,
+.hero-banner__title {
+  color: #ffffff !important;
+  text-shadow: 0 6px 26px rgba(0, 0, 0, 0.75);
+}
+
+.hero p,
+.hero-banner p,
+.cinema-hero p,
+.hero-banner__description {
+  color: #d7d7d7 !important;
+}
+
+.hero-banner .pill,
+.hero-banner__classification,
+.hero-banner__status {
+  background: #ffffff !important;
+  color: #080808 !important;
+  border: none !important;
+}
+
+.hero-banner .primary-button {
+  background: #e50914 !important;
+  color: #ffffff !important;
+}
+
+.hero-banner .secondary-button {
+  background: #ffffff !important;
+  color: #080808 !important;
+  border: none !important;
+}
+
+.hero-banner .secondary-button:hover {
+  background: #e5e5e5 !important;
+}
+
+/* Remover qualquer fundo azul antigo dentro do banner */
+.hero-banner [class*="content"],
+.hero-banner [class*="info"],
+.hero-banner [class*="copy"],
+.hero-banner [class*="text"] {
+  background-color: transparent !important;
+}
+
+/* Cards dos filmes */
+.movies-section,
+.movie-showcase,
+.movies-grid {
+  color: var(--cine-text);
+}
+
+.movie-card,
+.movies-card,
+.film-card {
+  background: #151515 !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42) !important;
+  overflow: hidden !important;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.movie-card:hover,
+.movies-card:hover,
+.film-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(229, 9, 20, 0.58) !important;
+  box-shadow: 0 22px 55px rgba(229, 9, 20, 0.18) !important;
+}
+
+.movie-card img,
+.movies-card img,
+.film-card img {
+  object-fit: contain !important;
+  background: #050505 !important;
+}
+
+.movie-card [style*="background-image"],
+.movies-card [style*="background-image"],
+.film-card [style*="background-image"],
+.movie-detail__poster {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-color: #050505 !important;
+}
+
+.movie-detail__poster {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Sessões */
+.session-card {
+  background: #101010 !important;
+  color: var(--cine-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.session-card:hover,
+.session-card--active {
+  border-color: var(--cine-red) !important;
+  background: linear-gradient(180deg, rgba(229, 9, 20, 0.2), rgba(229, 9, 20, 0.08)) !important;
+}
+
+.pill {
+  background: rgba(229, 9, 20, 0.14) !important;
+  color: #ffb5b8 !important;
+  border: 1px solid rgba(229, 9, 20, 0.36) !important;
+}
+
+/* Formulários */
+.field span,
+.auth-field span {
+  color: var(--cine-text) !important;
+  font-weight: 800;
+}
+
+input,
+select,
+textarea {
+  background: #101010 !important;
+  color: var(--cine-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  outline: none !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--cine-red) !important;
+  box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.15) !important;
+}
+
+/* Login/Cadastro */
+.auth-page-shell {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(229, 9, 20, 0.2), transparent 32rem),
+    #070707 !important;
+}
+
+.cinemark-auth__hero,
+.cinemark-login-card,
+.auth-modal {
+  background: linear-gradient(180deg, #151515 0%, #101010 100%) !important;
+  border: 1px solid var(--cine-border) !important;
+  color: var(--cine-text) !important;
+  box-shadow: var(--cine-shadow) !important;
+}
+
+.cinemark-auth__tag,
+.login-badge {
+  background: var(--cine-red) !important;
+  color: var(--cine-white) !important;
+}
+
+.auth-modal-backdrop {
+  background: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Tabelas */
+table {
+  color: var(--cine-text);
+}
+
+thead {
+  background: #0f0f0f !important;
+}
+
+th {
+  color: var(--cine-yellow) !important;
+}
+
+td {
+  color: var(--cine-muted) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Assentos */
+.seat {
+  border-radius: 0.45rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.seat--disponivel {
+  background: #262626 !important;
+  color: var(--cine-white) !important;
+}
+
+.seat--selected {
+  background: var(--cine-red) !important;
+  color: var(--cine-white) !important;
+}
+
+.screen-indicator {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent) !important;
+  color: var(--cine-muted) !important;
+}
+
+/* Ajustes gerais */
+.dashboard-grid,
+.page-shell {
+  color: var(--cine-text);
+}
+
+.alert {
+  border: 1px solid var(--cine-border) !important;
+  box-shadow: var(--cine-shadow) !important;
+}
+
+.alert--success {
+  background: rgba(21, 128, 61, 0.95) !important;
+  color: white !important;
+}
+
+.alert--error {
+  background: rgba(185, 28, 28, 0.95) !important;
+  color: white !important;
+}
+
+.alert--info {
+  background: rgba(30, 41, 59, 0.96) !important;
+  color: white !important;
+}
+
+@media (max-width: 780px) {
+  .panel,
+  .cinemark-login-card,
+  .cinemark-auth__hero,
+  .auth-modal {
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.38) !important;
+  }
+}

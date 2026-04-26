@@ -1,0 +1,510 @@
+/* CineREACT - correção visual sólida/minimalista
+   Importar este arquivo por último em src/pages/home.tsx:
+   import "./visual-fix.css";
+*/
+
+:root {
+  --cine-bg: #090d14;
+  --cine-surface: #101722;
+  --cine-surface-2: #151d2a;
+  --cine-card: #ffffff;
+  --cine-text: #f8fafc;
+  --cine-muted: #9aa4b2;
+  --cine-border: rgba(255, 255, 255, 0.1);
+  --cine-red: #e50914;
+  --cine-red-2: #ff3040;
+  --cine-dark: #070a0f;
+  --cine-light-bg: #f4f5f7;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--cine-bg) !important;
+  color: var(--cine-text) !important;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.home {
+  min-height: 100vh;
+  background: var(--cine-bg) !important;
+  color: var(--cine-text) !important;
+}
+
+/* HEADER LIMPO */
+.home header,
+.header,
+.site-header,
+.app-header,
+.main-header,
+.topbar,
+.home-header {
+  min-height: 74px !important;
+  padding: 12px 32px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  display: grid !important;
+  grid-template-columns: 220px minmax(260px, 1fr) auto !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.home header * ,
+.header *,
+.site-header *,
+.app-header *,
+.main-header *,
+.topbar *,
+.home-header * {
+  text-shadow: none !important;
+}
+
+.home header h1,
+.header h1,
+.site-header h1,
+.app-header h1,
+.main-header h1,
+.topbar h1,
+.home-header h1 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 900 !important;
+}
+
+.home header small,
+.home header p,
+.header small,
+.header p,
+.site-header small,
+.site-header p,
+.app-header small,
+.app-header p {
+  margin: 0 !important;
+  color: #6b7280 !important;
+  font-size: 13px !important;
+}
+
+.home header strong,
+.header strong,
+.site-header strong,
+.app-header strong {
+  color: var(--cine-red) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.22em !important;
+  font-weight: 900 !important;
+}
+
+.home header form,
+.header form,
+.site-header form,
+.app-header form,
+.home header .search,
+.header .search,
+.site-header .search,
+.app-header .search,
+.home header .search-box,
+.header .search-box,
+.site-header .search-box,
+.app-header .search-box {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.home header input,
+.header input,
+.site-header input,
+.app-header input,
+.main-header input,
+.topbar input {
+  width: 100% !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+  border: 1px solid #d1d5db !important;
+  background: #f9fafb !important;
+  color: #111827 !important;
+  padding: 0 16px !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.home header input:focus,
+.header input:focus,
+.site-header input:focus,
+.app-header input:focus {
+  border-color: #111827 !important;
+  background: #ffffff !important;
+}
+
+.home header button,
+.header button,
+.site-header button,
+.app-header button,
+.main-header button,
+.topbar button {
+  height: 42px !important;
+  border-radius: 12px !important;
+  border: 0 !important;
+  padding: 0 20px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+.home header button[type="submit"],
+.header button[type="submit"],
+.site-header button[type="submit"],
+.app-header button[type="submit"] {
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+.home header button:not([type="submit"]),
+.header button:not([type="submit"]),
+.site-header button:not([type="submit"]),
+.app-header button:not([type="submit"]) {
+  background: var(--cine-red) !important;
+  color: #ffffff !important;
+}
+
+/* MENU MAIS FINO E SEM TEXTO SOBRANDO */
+.home nav,
+.menu,
+.main-menu,
+.navigation,
+.navbar {
+  min-height: 50px !important;
+  padding: 0 32px !important;
+  background: #0f172a !important;
+  border: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+}
+
+.home nav > span,
+.home nav > p,
+.menu > span,
+.menu > p,
+.menu__status,
+.menu__message,
+.menu__helper,
+.menu__text,
+.navbar__message,
+.navigation__message {
+  display: none !important;
+}
+
+.home nav button,
+.menu button,
+.main-menu button,
+.navigation button,
+.navbar button,
+.home nav a,
+.menu a,
+.main-menu a,
+.navigation a,
+.navbar a {
+  height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: #e5e7eb !important;
+  border: 0 !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+}
+
+.home nav button:hover,
+.menu button:hover,
+.main-menu button:hover,
+.navigation button:hover,
+.navbar button:hover,
+.home nav a:hover,
+.menu a:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.home nav button[aria-current="page"],
+.home nav button.active,
+.home nav .active,
+.menu button.active,
+.menu .active,
+.main-menu button.active,
+.navigation button.active,
+.navbar button.active,
+.home nav button:first-child {
+  background: var(--cine-red) !important;
+  color: #ffffff !important;
+}
+
+/* BANNER */
+.hero,
+.hero-banner,
+.heroBanner,
+.home-hero {
+  width: min(1220px, calc(100% - 48px)) !important;
+  margin: 28px auto !important;
+  min-height: 420px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38) !important;
+}
+
+.hero *,
+.hero-banner *,
+.heroBanner *,
+.home-hero * {
+  text-shadow: none !important;
+}
+
+.hero h1,
+.hero-banner h1,
+.heroBanner h1,
+.home-hero h1,
+.hero h2,
+.hero-banner h2,
+.heroBanner h2,
+.home-hero h2 {
+  color: #ffffff !important;
+  font-size: clamp(48px, 7vw, 82px) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.05em !important;
+  font-weight: 950 !important;
+}
+
+.hero p,
+.hero-banner p,
+.heroBanner p,
+.home-hero p {
+  color: #f3f4f6 !important;
+  max-width: 650px !important;
+  line-height: 1.75 !important;
+}
+
+.hero img,
+.hero-banner img,
+.heroBanner img,
+.home-hero img {
+  object-fit: cover !important;
+  filter: grayscale(0.15) contrast(1.05) brightness(0.82) !important;
+}
+
+.pill,
+.badge,
+.status-badge,
+.classification-badge {
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  box-shadow: none !important;
+}
+
+.primary-button,
+.hero button:first-of-type,
+.hero-banner button:first-of-type,
+.heroBanner button:first-of-type {
+  background: var(--cine-red) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.secondary-button,
+.hero button:nth-of-type(2),
+.hero-banner button:nth-of-type(2),
+.heroBanner button:nth-of-type(2) {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+/* SEÇÕES E PAINÉIS */
+.dashboard-grid,
+.page-shell,
+.movies-section,
+.catalog-section {
+  width: min(1220px, calc(100% - 48px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.panel,
+.movie-card,
+.product-card,
+.ticket-card,
+.room-card,
+.operator-card,
+.report-card,
+.stat-card,
+.auth-panel,
+.notification-card {
+  background: var(--cine-surface) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--cine-border) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.panel__eyebrow,
+.movie-card__meta,
+.muted-text {
+  color: var(--cine-muted) !important;
+}
+
+.panel__title,
+.movie-card h3,
+.movie-card strong,
+.product-card strong,
+.ticket-card strong,
+.room-card strong,
+.operator-card strong,
+.report-card strong,
+.stat-card strong {
+  color: #ffffff !important;
+}
+
+/* CATÁLOGO DE FILMES */
+.movies-section,
+.catalog-section {
+  padding: 10px 0 50px !important;
+}
+
+.movies-grid,
+.movie-grid,
+.catalog-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  gap: 22px !important;
+}
+
+.movie-card {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  min-height: auto !important;
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(229, 9, 20, 0.55) !important;
+}
+
+.movie-card img,
+.movie-card__image,
+.movie-poster,
+.poster-image {
+  width: 100% !important;
+  aspect-ratio: 2 / 3 !important;
+  object-fit: cover !important;
+  background: #0b0f17 !important;
+  display: block !important;
+}
+
+.movie-card [style*="background-image"] {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.movie-card__content,
+.movie-card__body,
+.movie-info {
+  padding: 16px !important;
+}
+
+.movie-card p,
+.movie-card span {
+  color: #cbd5e1 !important;
+}
+
+/* FORMULÁRIOS */
+input,
+select,
+textarea {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #0b1220 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+label span,
+.field span {
+  color: #e5e7eb !important;
+}
+
+/* AUTH: mantém bonito no tema escuro */
+.auth-shell,
+.auth-layout,
+.auth-card,
+.auth-modal,
+.auth-modal__card,
+.auth-update {
+  color: #ffffff !important;
+}
+
+.auth-modal__backdrop,
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.68) !important;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .home header,
+  .header,
+  .site-header,
+  .app-header,
+  .main-header,
+  .topbar,
+  .home-header {
+    grid-template-columns: 1fr !important;
+    padding: 16px !important;
+  }
+
+  .home nav,
+  .menu,
+  .main-menu,
+  .navigation,
+  .navbar {
+    padding: 8px 16px !important;
+    overflow-x: auto !important;
+  }
+
+  .hero,
+  .hero-banner,
+  .heroBanner,
+  .home-hero,
+  .dashboard-grid,
+  .page-shell,
+  .movies-section,
+  .catalog-section {
+    width: calc(100% - 24px) !important;
+  }
+
+  .hero,
+  .hero-banner,
+  .heroBanner,
+  .home-hero {
+    min-height: 360px !important;
+  }
+}

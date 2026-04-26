@@ -73,6 +73,7 @@ import type {
 } from "../types";
 import "./home.css";
 import "./auth-update.css";
+import "./cinemark-theme.css";
 
 type Screen =
   | "home"
@@ -488,8 +489,10 @@ function Home() {
     null;
   const selectedRoom = cinemaStore.rooms.find((room) => room.id === selectedSession?.roomId) ?? null;
   const selectedMovie =
-    cinemaStore.movies.find((movie) => movie.id === (selectedSession?.movieId ?? selectedMovieId)) ??
-    featuredMovie;
+    screen === "movie"
+      ? cinemaStore.movies.find((movie) => movie.id === selectedMovieId) ?? featuredMovie
+      : cinemaStore.movies.find((movie) => movie.id === (selectedSession?.movieId ?? selectedMovieId)) ??
+        featuredMovie;
   const checkoutTotal = selectedSeatIds.reduce((accumulator, seatId) => {
     if (!selectedSession) {
       return accumulator;
@@ -535,14 +538,17 @@ function Home() {
 
   function openMovie(movieId: string) {
     const movie = cinemaStore.movies.find((item) => item.id === movieId);
+
     if (!movie) {
       return;
     }
-    setSelectedMovieId(movieId);
+
     const nextSession = clientSessions.find((session) => session.movieId === movieId);
-    if (nextSession) {
-      setSelectedSessionId(nextSession.id);
-    }
+
+    setSelectedMovieId(movieId);
+    setSelectedSessionId(nextSession?.id ?? "");
+    setSelectedSeatIds([]);
+    setTicketTypesBySeat({});
     setScreen("movie");
   }
 

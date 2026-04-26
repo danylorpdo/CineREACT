@@ -22,7 +22,16 @@ function HeroBanner({
       <div
         className="hero__container"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(5, 8, 18, 0.95) 0%, rgba(5, 8, 18, 0.72) 44%, rgba(5, 8, 18, 0.2) 100%), url(${movie.image})`,
+          backgroundImage: `
+            linear-gradient(
+              90deg,
+              rgba(5, 5, 5, 0.98) 0%,
+              rgba(8, 8, 8, 0.94) 44%,
+              rgba(8, 8, 8, 0.55) 68%,
+              rgba(8, 8, 8, 0.12) 100%
+            ),
+            url(${movie.image})
+          `,
         }}
       >
         <div className="hero__content">
@@ -31,14 +40,14 @@ function HeroBanner({
             <span className="hero__status">{getMovieVisibleStatus(movie)}</span>
           </div>
 
-          <p className="hero__subtitle">Catalogo principal</p>
+          <p className="hero__subtitle">Catálogo principal</p>
           <h2 className="hero__title">{movie.name}</h2>
           <p className="hero__description">{movie.synopsis}</p>
 
           <div className="hero__facts">
             <span>{movie.genre}</span>
             <span>{formatDuration(movie.durationMinutes)}</span>
-            <span>Direcao: {movie.director}</span>
+            <span>Direção: {movie.director}</span>
           </div>
 
           <div className="hero__buttons">
