@@ -1,0 +1,130 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(20px);
+  background: rgba(4, 7, 18, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header__container {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  text-align: left;
+  cursor: pointer;
+}
+
+.header__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fca5a5;
+}
+
+.header__logo {
+  font-size: 1.9rem;
+  letter-spacing: 0.08em;
+}
+
+.header__location {
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.header__search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.header__search-input {
+  min-width: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  padding: 13px 18px;
+  outline: none;
+}
+
+.header__search-input:focus {
+  border-color: rgba(248, 113, 113, 0.9);
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16);
+}
+
+.header__search-button,
+.header__action {
+  border: none;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header__search-button {
+  background: linear-gradient(135deg, #fb7185, #ef4444);
+  color: #fff;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__status {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.14);
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.header__action--highlight {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+@media (max-width: 1080px) {
+  .header__container {
+    grid-template-columns: 1fr;
+  }
+
+  .header__actions {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .header__container {
+    padding: 16px;
+  }
+
+  .header__search {
+    grid-template-columns: 1fr;
+  }
+
+  .header__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header__status {
+    white-space: normal;
+  }
+}

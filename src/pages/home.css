@@ -1,0 +1,529 @@
+.home {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 24%),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 22%),
+    linear-gradient(180deg, #020617 0%, #0b1120 100%);
+  color: #f8fafc;
+}
+
+.home--loading {
+  display: grid;
+  place-items: center;
+  padding: 40px 16px;
+}
+
+.loading-card,
+.alert {
+  width: min(760px, calc(100% - 32px));
+  margin: 20px auto 0;
+  border-radius: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.loading-card {
+  display: grid;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.86);
+}
+
+.alert {
+  position: sticky;
+  top: 108px;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+}
+
+.alert--success {
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.alert--error {
+  background: rgba(239, 68, 68, 0.18);
+}
+
+.alert--info {
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.dashboard-grid,
+.page-grid,
+.backoffice-layout {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.dashboard-grid,
+.page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  gap: 20px;
+}
+
+.page-grid--snack {
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 0.9fr);
+}
+
+.backoffice-layout {
+  display: grid;
+  gap: 20px;
+}
+
+.page-shell {
+  padding-bottom: 40px;
+}
+
+.panel {
+  border-radius: 28px;
+  background: rgba(10, 15, 30, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 22px;
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
+}
+
+.panel--wide,
+.panel--detail {
+  min-width: 0;
+}
+
+.panel__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.panel__eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  margin-bottom: 6px;
+}
+
+.panel__title {
+  font-size: 1.55rem;
+}
+
+.pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  color: #e2e8f0;
+  font-size: 0.88rem;
+}
+
+.pill--pago,
+.pill--pronto {
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.pill--pendente,
+.pill--preparando {
+  background: rgba(250, 204, 21, 0.18);
+}
+
+.pill--cancelado,
+.pill--entregue {
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.detail-grid,
+.checkout-grid,
+.auth-layout,
+.report-grid,
+.stats-grid,
+.product-grid,
+.ticket-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.detail-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
+}
+
+.movie-detail {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.movie-detail__poster {
+  min-height: 360px;
+  border-radius: 24px;
+  background-position: center;
+  background-size: cover;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.movie-detail__content {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-layout {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.report-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.product-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ticket-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.detail-copy,
+.muted-text,
+.profile-list span,
+.stack-list span,
+.report-card,
+.stat-card span,
+.operator-card span,
+.product-card span,
+.summary-box span {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.facts-list,
+.session-stack,
+.stack-list,
+.profile-list {
+  display: grid;
+  gap: 10px;
+}
+
+.facts-list {
+  margin-top: 18px;
+}
+
+.stats-grid,
+.ticket-grid {
+  margin-top: 6px;
+}
+
+.stat-card,
+.report-card,
+.product-card,
+.notification-card,
+.hint-card,
+.summary-box,
+.qr-card,
+.ticket-card,
+.operator-card,
+.room-card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.64);
+}
+
+.stat-card {
+  padding: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.stat-card strong {
+  font-size: 1.5rem;
+}
+
+.report-card,
+.notification-card,
+.hint-card,
+.summary-box,
+.ticket-card,
+.operator-card,
+.room-card {
+  padding: 16px;
+}
+
+.report-card {
+  display: grid;
+  gap: 12px;
+}
+
+.product-card {
+  padding: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+}
+
+.field input,
+.field select,
+.field textarea,
+.button-row select {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(2, 6, 23, 0.72);
+  color: #f8fafc;
+  padding: 13px 14px;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+}
+
+.toggle-field input {
+  width: auto;
+}
+
+.primary-button,
+.secondary-button,
+.session-card,
+.quantity-row button,
+.seat,
+.button-row button {
+  border: none;
+  cursor: pointer;
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 16px;
+  padding: 13px 18px;
+  font-weight: 800;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #fb7185, #ef4444);
+  color: #fff;
+}
+
+.secondary-button {
+  background: rgba(148, 163, 184, 0.16);
+  color: #f8fafc;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.session-card {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.64);
+  color: #e2e8f0;
+}
+
+.session-card--active {
+  outline: 2px solid rgba(248, 113, 113, 0.62);
+}
+
+.checkout-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.checkout-column {
+  display: grid;
+  gap: 14px;
+}
+
+.screen-indicator {
+  text-align: center;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.28), rgba(59, 130, 246, 0.06));
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.seat-map,
+.seat-preview {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.seat {
+  border-radius: 12px;
+  padding: 10px 6px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.seat--disponivel {
+  background: rgba(59, 130, 246, 0.24);
+}
+
+.seat--ocupado {
+  background: rgba(248, 113, 113, 0.28);
+}
+
+.seat--manutencao {
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.seat--selected {
+  outline: 2px solid rgba(250, 204, 21, 0.9);
+}
+
+.ticket-type-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.64);
+}
+
+.summary-box {
+  display: grid;
+  gap: 6px;
+}
+
+.quantity-row,
+.mini-row,
+.ticket-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quantity-row button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(248, 113, 113, 0.18);
+  color: #fff;
+}
+
+.operator-card,
+.room-card,
+.qr-card {
+  display: grid;
+  gap: 12px;
+}
+
+.ticket-card--highlight {
+  outline: 2px solid rgba(250, 204, 21, 0.64);
+}
+
+.qr-card {
+  place-items: center;
+  padding: 18px;
+  text-align: center;
+}
+
+.qr-card img {
+  width: 140px;
+  height: 140px;
+  border-radius: 18px;
+  background: #fff;
+  padding: 10px;
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+th {
+  color: #fda4af;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 1120px) {
+  .dashboard-grid,
+  .page-grid,
+  .auth-layout,
+  .checkout-grid,
+  .detail-grid,
+  .movie-detail,
+  .report-grid,
+  .product-grid,
+  .ticket-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid,
+  .page-grid,
+  .backoffice-layout,
+  .auth-layout {
+    padding: 16px;
+  }
+
+  .form-grid,
+  .stats-grid,
+  .product-grid,
+  .ticket-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seat-map,
+  .seat-preview {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
