@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AIAssistant from "../components/AIAssistant";
 import Header from "../components/header";
 import Menu from "../components/menu";
 import HeroBanner from "../components/HeroBanner";
@@ -84,7 +85,6 @@ type Screen =
   | "backoffice"
   | "checkout"
   | "success";
-type AuthMode = "login" | "register";
 type AlertTone = "success" | "error" | "info";
 type Period = "diario" | "semanal" | "mensal" | "anual";
 
@@ -342,7 +342,6 @@ function Home() {
   const [store, setStore] = useState<CinemaStore | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [screen, setScreen] = useState<Screen>("home");
-  const [authMode, setAuthMode] = useState<AuthMode>("login");
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState("");
@@ -563,7 +562,6 @@ function Home() {
       return;
     }
     if (target === "session" && !currentUser) {
-      setAuthMode("login");
       setScreen("auth");
       showAlert("info", "Entre para visualizar suas compras, notificacoes e historico.");
       return;
@@ -590,7 +588,6 @@ function Home() {
 
     if (!currentUser || currentUser.type !== "cliente") {
       setPendingMovieId(movieId);
-      setAuthMode("login");
       setScreen("auth");
       showAlert("info", "Para comprar ingressos, entre com um perfil de cliente.");
       return;
@@ -859,7 +856,6 @@ function Home() {
 
   function placeSnackOrder() {
     if (!currentUser || currentUser.type !== "cliente") {
-      setAuthMode("login");
       setScreen("auth");
       showAlert("info", "Entre com um cliente para pedir itens da bomboniere.");
       return;
@@ -1305,7 +1301,6 @@ function Home() {
           }
         }}
         onAuthAction={() => {
-          setAuthMode("login");
           setScreen("auth");
         }}
         onLogoClick={() => setScreen("home")}
@@ -1566,7 +1561,6 @@ function Home() {
                   type="button"
                   className="secondary-button"
                   onClick={() => {
-                    setAuthMode("register");
                     setIsRegisterModalOpen(true);
                   }}
                 >
@@ -2883,6 +2877,17 @@ function Home() {
           )}
         </section>
       ) : null}
+
+      <AIAssistant
+        currentUser={currentUser}
+        movies={cinemaStore.movies}
+        sessions={cinemaStore.sessions}
+        rooms={cinemaStore.rooms}
+        products={cinemaStore.products}
+        paymentMethods={PAYMENT_METHODS}
+        onOpenMovie={openMovie}
+        onBuyMovie={beginCheckout}
+      />
     </div>
   );
 }
